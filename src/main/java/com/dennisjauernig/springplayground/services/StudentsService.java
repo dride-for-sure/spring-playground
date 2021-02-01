@@ -13,19 +13,12 @@ import java.util.stream.Collectors;
 public class StudentsService {
  private final HashMap<String, Student> students = new HashMap<>();
 
- public StudentsService () {
-	Student student1 = new Student( "1", "Karl" );
-	Student student2 = new Student( "2", "Heinz" );
-	students.put( student1.getId(), student1 );
-	students.put( student2.getId(), student2 );
- }
-
  public List<Student> list (String search) {
 	List<Student> students = new ArrayList<>( this.students.values() );
 	if ( !search.isEmpty() ) {
 	 List<Student> filteredStudents =
 					 students.stream()
-									 .filter( student -> student.getName().equals( search ) )
+									 .filter( student -> student.getName().equalsIgnoreCase( search ) )
 									 .collect( Collectors.toList() );
 	 return filteredStudents;
 	}

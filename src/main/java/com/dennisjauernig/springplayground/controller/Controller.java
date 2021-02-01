@@ -16,10 +16,10 @@ public class Controller {
 
  private final HashMap<String, Student> students = new HashMap<>();
 
- StudentsService studentsService;
+ private final StudentsService studentsService;
 
- public Controller () {
-	this.studentsService = new StudentsService();
+ public Controller (StudentsService studentsService) {
+	this.studentsService = studentsService; // DI
  }
 
  @GetMapping ("{id}")
@@ -28,8 +28,10 @@ public class Controller {
 	if ( student.isPresent() ) {
 	 return student.get();
 	}
-	throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Student with " + id + " is not " +
-					"available" );
+	throw new ResponseStatusException(
+					HttpStatus.NOT_FOUND,
+					"Student with " + id + " is not " + "available"
+	);
  }
 
  @GetMapping

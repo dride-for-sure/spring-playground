@@ -32,7 +32,7 @@ public class Controller {
 					"available" );
  }
 
- @GetMapping
+ @GetMapping ("geschlecht")
  public List<Student> getStudents () {
 	return this.studentsService.list();
  }

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping ("student")
+@RequestMapping ("students")
 public class Controller {
 
  private final HashMap<String, Student> students = new HashMap<>();
@@ -32,8 +32,14 @@ public class Controller {
 					"available" );
  }
 
- @GetMapping ("geschlecht")
- public List<Student> getStudents () {
-	return this.studentsService.list();
+ @GetMapping
+ public List<Student> getStudents (@RequestParam Optional<String> search) {
+	return this.studentsService.list( search.orElse( "" ) );
+ }
+
+ @PutMapping
+ public Student addStudent (@RequestBody Student student) {
+	studentsService.add( student );
+	return student;
  }
 }

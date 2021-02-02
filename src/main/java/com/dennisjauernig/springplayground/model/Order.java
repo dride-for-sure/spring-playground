@@ -1,11 +1,17 @@
 package com.dennisjauernig.springplayground.model;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 public class Order {
 
  private UUID id = UUID.randomUUID();

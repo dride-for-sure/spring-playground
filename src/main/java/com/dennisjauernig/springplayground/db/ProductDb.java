@@ -31,4 +31,15 @@ public class ProductDb {
 					.collect( Collectors.toList() );
 	return idsInvalid.isEmpty() ? Optional.empty() : Optional.of( idsInvalid );
  }
+
+ public boolean delete (String id) {
+	List<Product> filteredDb = this.productDb.stream()
+					.filter( product -> product.getId().equals( id ) )
+					.collect( Collectors.toList() );
+	if ( filteredDb.size() == this.productDb.size() ) {
+	 return false;
+	}
+	this.productDb = filteredDb;
+	return true;
+ }
 }

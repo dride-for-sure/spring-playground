@@ -9,40 +9,49 @@ public class Order {
  private UUID id = UUID.randomUUID();
  private ArrayList<String> productIds = new ArrayList<>();
 
- public Order () {
- }
-
  public Order (UUID id, ArrayList<String> productIds) {
 	this.id = id;
 	this.productIds = productIds;
  }
 
+ public Order () {
+ }
+
  public UUID getId () {
-	return id;
+	return this.id;
+ }
+
+ public void setId (UUID id) {
+	this.id = id;
  }
 
  public ArrayList<String> getProductIds () {
-	return productIds;
+	return this.productIds;
+ }
+
+ public void setProductIds (ArrayList<String> productIds) {
+	this.productIds = productIds;
  }
 
  @Override
  public String toString () {
 	return "Order{" +
-					"id='" + id + '\'' +
-					", productIds=" + productIds +
+					"id=" + this.id +
+					", productIds=" + this.productIds +
 					'}';
  }
 
  @Override
  public boolean equals (Object o) {
 	if ( this == o ) return true;
-	if ( o == null || getClass() != o.getClass() ) return false;
+	if ( o == null || this.getClass() != o.getClass() ) return false;
 	Order order = (Order) o;
-	return Objects.equals( getId(), order.getId() ) && Objects.equals( getProductIds(), order.getProductIds() );
+	return Objects.equals( this.getId(), order.getId() ) && Objects.equals( this.getProductIds(), order.getProductIds() );
  }
 
  @Override
  public int hashCode () {
-	return Objects.hash( getId(), getProductIds() );
+	return Objects.hash( this.getId(), this.getProductIds() );
  }
 }
+

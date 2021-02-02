@@ -2,11 +2,11 @@ package com.dennisjauernig.springplayground.controller;
 
 import com.dennisjauernig.springplayground.model.Product;
 import com.dennisjauernig.springplayground.services.ProductService;
-import org.apache.catalina.startup.ListenerCreateRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping ("api/products")
@@ -20,13 +20,18 @@ public class ProductController {
  }
 
  @GetMapping
- public List<Product> list () {
-	return this.productService.list();
+ public List<Product> list (@RequestParam Optional<String> search) {
+	return this.productService.list( search );
  }
 
  @GetMapping ("{id}")
- public List<Product> get (String id) {
+ public List<Product> get (@PathVariable String id) {
 	return this.productService.get( id );
+ }
+
+ @DeleteMapping ("{id}")
+ public void delete (@PathVariable String id) {
+	this.productService.delete( id );
  }
 
  @PutMapping

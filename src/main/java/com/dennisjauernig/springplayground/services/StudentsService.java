@@ -1,5 +1,6 @@
 package com.dennisjauernig.springplayground.services;
 
+import com.dennisjauernig.springplayground.db.StudentDb;
 import com.dennisjauernig.springplayground.model.Student;
 import org.springframework.stereotype.Service;
 
@@ -11,26 +12,32 @@ import java.util.stream.Collectors;
 
 @Service
 public class StudentsService {
- private final HashMap<String, Student> students = new HashMap<>();
+
+ private final StudentDb studentDb;
+
+ public StudentsService (StudentDb studentDb) {
+	this.studentDb = studentDb;
+ }
 
  public List<Student> list (String search) {
-	List<Student> students = new ArrayList<>( this.students.values() );
+	List<Student> students = this.studentDb.get();
 	if ( !search.isEmpty() ) {
-	 List<Student> filteredStudents =
-					 students.stream()
-									 .filter( student -> student.getName().equalsIgnoreCase( search ) )
-									 .collect( Collectors.toList() );
-	 return filteredStudents;
+	 return students.stream()
+					 .filter( student -> student.getName().equalsIgnoreCase( search ) )
+					 .collect( Collectors.toList() );
 	}
 	return students;
  }
 
- public Optional<Student> get (String id) {
-	Student student = this.students.get( id );
-	return student == null ? Optional.empty() : Optional.of( student );
+ public Optional<List<Student>> get (String id) {
+	List<Student> students = this.studentDb.get();
+	List<Student> matches = students.stream()
+					.filter( student -> student.getId().equals( id ) )
+					.collect( Collectors.toList() );
+	return matches.isEmpty() ? Optional.empty() : Optional.of( matches );
  }
 
- public void add (Student student) {
-	this.students.put( student.getId(), student );
+ public Student add (Student student) {
+	return this.studentDb.add( student );
  }
 }

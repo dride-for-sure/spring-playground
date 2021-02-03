@@ -34,7 +34,7 @@ public class ProductDb {
 
  public boolean delete (String id) {
 	List<Product> filteredDb = this.productDb.stream()
-					.filter( product -> product.getId().equals( id ) )
+					.filter( product -> !product.getId().equals( id ) )
 					.collect( Collectors.toList() );
 	if ( filteredDb.size() == this.productDb.size() ) {
 	 return false;

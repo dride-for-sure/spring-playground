@@ -14,8 +14,8 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class Order {
 
- private UUID id = UUID.randomUUID();
- private ArrayList<String> productIds = new ArrayList<>();
+ private UUID id;
+ private ArrayList<String> productIds;
 
  public Order (UUID id, ArrayList<String> productIds) {
 	this.id = id;

@@ -11,14 +11,13 @@ import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.mockito.Mockito.mock;
 
 public class OrderDbTest {
 
  @Test
  @DisplayName ("Add and return order")
  void addAndList () {
-	OrderDb orderDb = mock( OrderDb.class );
+	OrderDb orderDb = new OrderDb();
 	UUID uuid = UUID.randomUUID();
 	orderDb.add( new Order( uuid, new ArrayList<>( List.of( "1", "2" ) ) ) );
 	List<Order> actual = orderDb.list();

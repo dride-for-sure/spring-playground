@@ -26,7 +26,7 @@ public class CoronaApiServiceTest {
 	Time time = mock( Time.class );
 	CoronaApiService coronaApiService = new CoronaApiService( restTemplate, time );
 
-	String url = "https://api.covid19api.com/country/germany/status/confirmed?from=2021-01-01T00:00:00Z&to=2021-01-08T00:00:00Z";
+	String url = "https://api.covid19api.com/country/germany?from=2021-01-01T00:00:00Z&to=2021-01-08T00:00:00Z";
 	CoronaCountryStatusData[] mockedData = {
 					new CoronaCountryStatusData( "germany", "", "100", "2021-01-28T00:00:00Z" ),
 					new CoronaCountryStatusData( "germany", "", "200", "2021-01-28T00:00:00Z" )
@@ -52,7 +52,7 @@ public class CoronaApiServiceTest {
 	Time time = mock( Time.class );
 	CoronaApiService coronaApiService = new CoronaApiService( restTemplate, time );
 
-	String url = "https://api.covid19api.com/country/germany/status/confirmed?from=2021-01-01T00:00:00Z&to=2021-01-08T00:00:00Z";
+	String url = "https://api.covid19api.com/country/germany?from=2021-01-01T00:00:00Z&to=2021-01-08T00:00:00Z";
 	CoronaCountryStatusData[] mockedData = {
 					new CoronaCountryStatusData( "germany", "", "100", "2021-01-28T00:00:00Z" ),
 					new CoronaCountryStatusData( "germany", "", "200", "2021-01-28T00:00:00Z" )
@@ -74,7 +74,8 @@ public class CoronaApiServiceTest {
 	Time time = mock( Time.class );
 	CoronaApiService coronaApiService = new CoronaApiService( restTemplate, time );
 
-	String url = "https://api.covid19api.com/country/germany?from=2021-01-01T00:00:00Z&to=2021-01-08T00:00:00Z";
+	String url = "https://api.covid19api.com/live/country/germany/status/confirmed?from=2021-01-01T00:00:00Z&to=2021-01" +
+					"-08T00:00:00Z";
 	CoronaCountryStatusData[] mockedData = {
 					new CoronaCountryStatusData( "germany", "hamburg", "100", "2021-01-28T00:00:00Z" ),
 					new CoronaCountryStatusData( "germany", "berlin", "200", "2021-01-28T00:00:00Z" )
@@ -99,7 +100,8 @@ public class CoronaApiServiceTest {
 	Time time = mock( Time.class );
 	CoronaApiService coronaApiService = new CoronaApiService( restTemplate, time );
 
-	String url = "https://api.covid19api.com/country/germany?from=2021-01-01T00:00:00Z&to=2021-01-08T00:00:00Z";
+	String url = "https://api.covid19api.com/live/country/germany/status/confirmed?from=2021-01-01T00:00:00Z&to=2021-01" +
+					"-08T00:00:00Z";
 	CoronaCountryStatusData[] mockedData = {
 					new CoronaCountryStatusData( "germany", "hamburg", "100", "2021-01-28T00:00:00Z" ),
 					new CoronaCountryStatusData( "germany", "berlin", "200", "2021-01-28T00:00:00Z" )
@@ -121,7 +123,8 @@ public class CoronaApiServiceTest {
 	Time time = mock( Time.class );
 	CoronaApiService coronaApiService = new CoronaApiService( restTemplate, time );
 
-	String url = "https://api.covid19api.com/country/germany?from=2021-01-01T00:00:00Z&to=2021-01-08T00:00:00Z";
+	String url = "https://api.covid19api.com/live/country/germany/status/confirmed?from=2021-01-01T00:00:00Z&to=2021-01" +
+					"-08T00:00:00Z";
 	CoronaCountryStatusData[] mockedData = {
 					new CoronaCountryStatusData( "germany", "hamburg", "100", "2021-01-28T00:00:00Z" ),
 					new CoronaCountryStatusData( "germany", "hamburg", "200", "2021-01-28T00:00:00Z" )
@@ -132,7 +135,6 @@ public class CoronaApiServiceTest {
 	when( restTemplate.getForEntity( url, CoronaCountryStatusData[].class ) ).thenReturn( new ResponseEntity<>( mockedData, HttpStatus.OK ) );
 	Optional<List<CoronaCountryStatusData>> actual = coronaApiService.get( "germany", "berlin" );
 
-	List<CoronaCountryStatusData> expected = new ArrayList<>();
-	assertThat( expected, equalTo( actual.get() ) );
+	assertThat( Optional.empty(), equalTo( actual ) );
  }
 }

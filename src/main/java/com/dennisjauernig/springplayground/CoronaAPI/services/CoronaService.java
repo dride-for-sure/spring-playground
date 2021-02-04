@@ -33,11 +33,11 @@ public class CoronaService {
 
  public Optional<String> getHomeSchooling (String country, String province) {
 	Optional<List<CoronaCountryStatusData>> list = this.coronaApiService.get( country, province );
-	return list.map( coronaCountryStatusData -> "[" +
-					"{ \"country\":" + country + "," +
-					" \"province\":" + province + "," +
-					" \"homeschooling\":" + this.hasHomeSchooling( coronaCountryStatusData ) +
-					"]" );
+	return list.map( coronaCountryStatusData -> "{ " +
+					"\"country\": \"" + country + "\"," +
+					" \"province\": \"" + province + "\"," +
+					" \"homeschooling\": \"" + this.hasHomeSchooling( coronaCountryStatusData ) +
+					"\"}" );
  }
 
  private boolean hasHomeSchooling (List<CoronaCountryStatusData> list) {

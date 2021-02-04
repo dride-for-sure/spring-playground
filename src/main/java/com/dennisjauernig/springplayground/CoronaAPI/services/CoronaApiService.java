@@ -25,7 +25,7 @@ public class CoronaApiService {
  }
 
  public Optional<List<CoronaCountryStatusData>> get (String country) {
-	ResponseEntity<CoronaCountryStatusData[]> response = this.getResponseEntity( country, true );
+	ResponseEntity<CoronaCountryStatusData[]> response = this.getResponseEntity( country, false );
 
 	if ( response.getStatusCode().equals( HttpStatus.OK ) && response.hasBody() ) {
 	 List<CoronaCountryStatusData> list = Arrays.asList( response.getBody() );
@@ -35,27 +35,28 @@ public class CoronaApiService {
  }
 
  public Optional<List<CoronaCountryStatusData>> get (String country, String province) {
-	ResponseEntity<CoronaCountryStatusData[]> response = this.getResponseEntity( country, false );
+	ResponseEntity<CoronaCountryStatusData[]> response = this.getResponseEntity( country, true );
 
 	if ( response.getStatusCode().equals( HttpStatus.OK ) && response.hasBody() ) {
 	 List<CoronaCountryStatusData> list = Arrays.asList( response.getBody() );
-	 return Optional.of( list.stream().filter( el -> el.getProvince().toLowerCase().equals( province ) ).collect( Collectors.toList() ) );
+	 List<CoronaCountryStatusData> filtered =
+					 list.stream().filter( el -> el.getProvince().toLowerCase().equals( province ) ).collect( Collectors.toList() );
+	 return filtered.size() == 0 ? Optional.empty() : Optional.of( filtered );
 	}
 	return Optional.empty();
  }
 
- private ResponseEntity<CoronaCountryStatusData[]> getResponseEntity (String country, boolean confirmed) {
+ private ResponseEntity<CoronaCountryStatusData[]> getResponseEntity (String country, boolean live) {
 	LocalDate toDate = this.time.getLocalTime();
 	LocalDate fromDate = toDate.minusDays( 7 );
 
-	String filter = confirmed ? "/status/confirmed?from=" : "" + "?from=";
-	String url = "https://api.covid19api.com/country/"
-					+ country
-					+ filter
-					+ fromDate.toString()
-					+ "T00:00:00Z&to="
-					+ toDate.toString()
-					+ "T00:00:00Z";
+	String url = "https://api.covid19api.com/";
+	if ( live ) {
+	 url += "live/country/" + country + "/status/confirmed";
+	} else {
+	 url += "country/" + country;
+	}
+	url += "?from=" + fromDate.toString() + "T00:00:00Z&to=" + toDate.toString() + "T00:00:00Z";
 
 	return this.restTemplate.getForEntity( url, CoronaCountryStatusData[].class );
  }

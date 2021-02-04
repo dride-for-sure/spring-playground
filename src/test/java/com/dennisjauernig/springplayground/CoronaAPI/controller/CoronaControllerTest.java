@@ -22,6 +22,12 @@ public class CoronaControllerTest {
  private CoronaController coronaController;
 
  @Test
+ @DisplayName ("Get week average with covid api offline")
+ void getWithApiOffline () {
+  
+ }
+
+ @Test
  @DisplayName ("Get week average by valid country")
  void getByValidCountry () {
 
@@ -74,6 +80,6 @@ public class CoronaControllerTest {
  @Test
  @DisplayName ("Get homeschooling by invalid country and province")
  void getHomeSchoolingByInvalidCountryAndProvince () {
-  
+
  }
 }

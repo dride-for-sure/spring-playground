@@ -23,8 +23,8 @@ public class CoronaApiServiceTest {
  @DisplayName ("Get by country valid")
  void getByCountryValidRequestTester () {
 	RestTemplate restTemplate = mock( RestTemplate.class );
-	Time time = mock( Time.class );
-	CoronaApiService coronaApiService = new CoronaApiService( restTemplate, time );
+	TimeService timeService = mock( TimeService.class );
+	CoronaApiService coronaApiService = new CoronaApiService( restTemplate, timeService );
 
 	String url = "https://api.covid19api.com/country/germany?from=2021-01-01T00:00:00Z&to=2021-01-08T00:00:00Z";
 	CoronaCountryStatusData[] mockedData = {
@@ -33,7 +33,7 @@ public class CoronaApiServiceTest {
 	};
 
 	LocalDate date = LocalDate.of( 2021, 1, 8 );
-	when( time.getLocalTime() ).thenReturn( date );
+	when( timeService.getLocalTime() ).thenReturn( date );
 
 	when( restTemplate.getForEntity( url, CoronaCountryStatusData[].class ) ).thenReturn( new ResponseEntity<>( mockedData, HttpStatus.OK ) );
 	Optional<List<CoronaCountryStatusData>> actual = coronaApiService.get( "germany" );
@@ -49,8 +49,8 @@ public class CoronaApiServiceTest {
  @DisplayName ("Get by country invalid")
  void getByCountryInvalidRequestTester () {
 	RestTemplate restTemplate = mock( RestTemplate.class );
-	Time time = mock( Time.class );
-	CoronaApiService coronaApiService = new CoronaApiService( restTemplate, time );
+	TimeService timeService = mock( TimeService.class );
+	CoronaApiService coronaApiService = new CoronaApiService( restTemplate, timeService );
 
 	String url = "https://api.covid19api.com/country/germany?from=2021-01-01T00:00:00Z&to=2021-01-08T00:00:00Z";
 	CoronaCountryStatusData[] mockedData = {
@@ -59,7 +59,7 @@ public class CoronaApiServiceTest {
 	};
 
 	LocalDate date = LocalDate.of( 2021, 1, 8 );
-	when( time.getLocalTime() ).thenReturn( date );
+	when( timeService.getLocalTime() ).thenReturn( date );
 
 	when( restTemplate.getForEntity( url, CoronaCountryStatusData[].class ) ).thenReturn( new ResponseEntity<>( mockedData, HttpStatus.BAD_REQUEST ) );
 	Optional<List<CoronaCountryStatusData>> actual = coronaApiService.get( "germany" );
@@ -71,8 +71,8 @@ public class CoronaApiServiceTest {
  @DisplayName ("Get by country and province valid")
  void getByCountryAndProvinceValidRequestTester () {
 	RestTemplate restTemplate = mock( RestTemplate.class );
-	Time time = mock( Time.class );
-	CoronaApiService coronaApiService = new CoronaApiService( restTemplate, time );
+	TimeService timeService = mock( TimeService.class );
+	CoronaApiService coronaApiService = new CoronaApiService( restTemplate, timeService );
 
 	String url = "https://api.covid19api.com/live/country/germany/status/confirmed?from=2021-01-01T00:00:00Z&to=2021-01" +
 					"-08T00:00:00Z";
@@ -82,7 +82,7 @@ public class CoronaApiServiceTest {
 	};
 
 	LocalDate date = LocalDate.of( 2021, 1, 8 );
-	when( time.getLocalTime() ).thenReturn( date );
+	when( timeService.getLocalTime() ).thenReturn( date );
 
 	when( restTemplate.getForEntity( url, CoronaCountryStatusData[].class ) ).thenReturn( new ResponseEntity<>( mockedData, HttpStatus.OK ) );
 	Optional<List<CoronaCountryStatusData>> actual = coronaApiService.get( "germany", "berlin" );
@@ -97,8 +97,8 @@ public class CoronaApiServiceTest {
  @DisplayName ("Get by country and province invalid")
  void getByCountryAndProvinceInvalidRequestTester () {
 	RestTemplate restTemplate = mock( RestTemplate.class );
-	Time time = mock( Time.class );
-	CoronaApiService coronaApiService = new CoronaApiService( restTemplate, time );
+	TimeService timeService = mock( TimeService.class );
+	CoronaApiService coronaApiService = new CoronaApiService( restTemplate, timeService );
 
 	String url = "https://api.covid19api.com/live/country/germany/status/confirmed?from=2021-01-01T00:00:00Z&to=2021-01" +
 					"-08T00:00:00Z";
@@ -108,7 +108,7 @@ public class CoronaApiServiceTest {
 	};
 
 	LocalDate date = LocalDate.of( 2021, 1, 8 );
-	when( time.getLocalTime() ).thenReturn( date );
+	when( timeService.getLocalTime() ).thenReturn( date );
 
 	when( restTemplate.getForEntity( url, CoronaCountryStatusData[].class ) ).thenReturn( new ResponseEntity<>( mockedData, HttpStatus.BAD_REQUEST ) );
 	Optional<List<CoronaCountryStatusData>> actual = coronaApiService.get( "germany", "berlin" );
@@ -120,8 +120,8 @@ public class CoronaApiServiceTest {
  @DisplayName ("Get by country and province empty matches")
  void getByCountryAndProvinceEmptyMatches () {
 	RestTemplate restTemplate = mock( RestTemplate.class );
-	Time time = mock( Time.class );
-	CoronaApiService coronaApiService = new CoronaApiService( restTemplate, time );
+	TimeService timeService = mock( TimeService.class );
+	CoronaApiService coronaApiService = new CoronaApiService( restTemplate, timeService );
 
 	String url = "https://api.covid19api.com/live/country/germany/status/confirmed?from=2021-01-01T00:00:00Z&to=2021-01" +
 					"-08T00:00:00Z";
@@ -130,7 +130,7 @@ public class CoronaApiServiceTest {
 					new CoronaCountryStatusData( "germany", "hamburg", "200", "2021-01-28T00:00:00Z" )
 	};
 	LocalDate date = LocalDate.of( 2021, 1, 8 );
-	when( time.getLocalTime() ).thenReturn( date );
+	when( timeService.getLocalTime() ).thenReturn( date );
 
 	when( restTemplate.getForEntity( url, CoronaCountryStatusData[].class ) ).thenReturn( new ResponseEntity<>( mockedData, HttpStatus.OK ) );
 	Optional<List<CoronaCountryStatusData>> actual = coronaApiService.get( "germany", "berlin" );

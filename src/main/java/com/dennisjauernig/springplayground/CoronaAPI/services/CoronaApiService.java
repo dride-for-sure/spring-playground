@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 public class CoronaApiService {
 
  private final RestTemplate restTemplate;
- private final Time time;
+ private final TimeService timeService;
 
- public CoronaApiService (RestTemplate restTemplate, Time time) {
+ public CoronaApiService (RestTemplate restTemplate, TimeService timeService) {
 
 	this.restTemplate = restTemplate;
-	this.time = time;
+	this.timeService = timeService;
  }
 
  public Optional<List<CoronaCountryStatusData>> get (String country) {
@@ -47,7 +47,7 @@ public class CoronaApiService {
  }
 
  private ResponseEntity<CoronaCountryStatusData[]> getResponseEntity (String country, boolean live) {
-	LocalDate toDate = this.time.getLocalTime();
+	LocalDate toDate = this.timeService.getLocalTime();
 	LocalDate fromDate = toDate.minusDays( 7 );
 
 	String url = "https://api.covid19api.com/";

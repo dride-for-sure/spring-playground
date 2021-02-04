@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Service
 @Data
 @NoArgsConstructor
-public class Time {
+public class TimeService {
 
  public LocalDate getLocalTime () {
 	return LocalDate.now();

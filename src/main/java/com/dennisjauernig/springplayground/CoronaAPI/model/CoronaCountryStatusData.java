@@ -13,8 +13,11 @@ public class CoronaCountryStatusData {
  @JsonProperty ("Country")
  private String country;
 
- @JsonProperty ("Cases")
- private String cases;
+ @JsonProperty ("Province")
+ private String province;
+
+ @JsonProperty ("Confirmed")
+ private String confirmed;
 
  @JsonProperty ("Date")
  private String date;

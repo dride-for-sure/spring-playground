@@ -1,7 +1,6 @@
 package com.dennisjauernig.springplayground.CoronaAPI.services;
 
 import com.dennisjauernig.springplayground.CoronaAPI.model.CoronaCountryStatusData;
-import com.dennisjauernig.springplayground.CoronaAPI.model.CoronaProvinceStatusData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,45 +16,49 @@ import java.util.stream.Collectors;
 public class CoronaApiService {
 
  private final RestTemplate restTemplate;
+ private final TimeService timeService;
 
- public CoronaApiService (RestTemplate restTemplate) {
+ public CoronaApiService (RestTemplate restTemplate, TimeService timeService) {
+
 	this.restTemplate = restTemplate;
+	this.timeService = timeService;
  }
 
- public Optional<List<CoronaCountryStatusData>> getByCountry (String country) {
+ public Optional<List<CoronaCountryStatusData>> get (String country) {
+	ResponseEntity<CoronaCountryStatusData[]> response = this.getResponseEntity( country, false );
 
-	LocalDate toDate = LocalDate.now();
-	LocalDate fromDate = toDate.minusDays( 7 );
-
-	String url = "https://api.covid19api.com/country/" + country + "/status/confirmed?from=" + fromDate.toString() + "T00:00:00Z" +
-					"&to=" + toDate.toString() + "T00:00:00Z";
-
-	ResponseEntity<CoronaCountryStatusData[]> response = this.restTemplate.getForEntity( url,
-					CoronaCountryStatusData[].class );
-
-	if ( response.getStatusCode().equals( HttpStatus.OK ) ) {
+	if ( response.getStatusCode().equals( HttpStatus.OK ) && response.hasBody() ) {
 	 List<CoronaCountryStatusData> list = Arrays.asList( response.getBody() );
 	 return Optional.of( list );
 	}
 	return Optional.empty();
  }
 
- public Optional<List<CoronaProvinceStatusData>> getByCountryAndProvince (String country, String province) {
+ public Optional<List<CoronaCountryStatusData>> get (String country, String province) {
+	ResponseEntity<CoronaCountryStatusData[]> response = this.getResponseEntity( country, true );
 
-	LocalDate toDate = LocalDate.now();
-	LocalDate fromDate = toDate.minusDays( 7 );
-
-	String url = "https://api.covid19api.com/live/country/" + country + "/status/confirmed?from=" + fromDate.toString() + "T00:00:00Z" +
-					"&to=" + toDate.toString() + "T00:00:00Z";
-
-	ResponseEntity<CoronaProvinceStatusData[]> response = this.restTemplate.getForEntity( url,
-					CoronaProvinceStatusData[].class );
-
-	if ( response.getStatusCode().equals( HttpStatus.OK ) ) {
-	 List<CoronaProvinceStatusData> list = Arrays.asList( response.getBody() );
-	 return Optional.of( list.stream().filter( el -> el.getProvince().toLowerCase().equals( province ) ).collect( Collectors.toList() ) );
+	if ( response.getStatusCode().equals( HttpStatus.OK ) && response.hasBody() ) {
+	 List<CoronaCountryStatusData> list = Arrays.asList( response.getBody() );
+	 List<CoronaCountryStatusData> filtered =
+					 list.stream().filter( el -> el.getProvince().toLowerCase().equals( province ) ).collect( Collectors.toList() );
+	 return filtered.size() == 0 ? Optional.empty() : Optional.of( filtered );
 	}
 	return Optional.empty();
+ }
+
+ private ResponseEntity<CoronaCountryStatusData[]> getResponseEntity (String country, boolean live) {
+	LocalDate toDate = this.timeService.getLocalTime();
+	LocalDate fromDate = toDate.minusDays( 7 );
+
+	String url = "https://api.covid19api.com/";
+	if ( live ) {
+	 url += "live/country/" + country + "/status/confirmed";
+	} else {
+	 url += "country/" + country;
+	}
+	url += "?from=" + fromDate.toString() + "T00:00:00Z&to=" + toDate.toString() + "T00:00:00Z";
+
+	return this.restTemplate.getForEntity( url, CoronaCountryStatusData[].class );
  }
 }
 

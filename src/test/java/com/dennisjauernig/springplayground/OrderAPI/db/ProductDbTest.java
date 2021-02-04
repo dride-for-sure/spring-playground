@@ -1,6 +1,6 @@
-package com.dennisjauernig.springplayground.db;
+package com.dennisjauernig.springplayground.OrderAPI.db;
 
-import com.dennisjauernig.springplayground.model.Product;
+import com.dennisjauernig.springplayground.OrderAPI.model.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

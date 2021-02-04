@@ -1,7 +1,7 @@
-package com.dennisjauernig.springplayground.services;
+package com.dennisjauernig.springplayground.OrderAPI.services;
 
-import com.dennisjauernig.springplayground.db.ProductDb;
-import com.dennisjauernig.springplayground.model.Product;
+import com.dennisjauernig.springplayground.OrderAPI.db.ProductDb;
+import com.dennisjauernig.springplayground.OrderAPI.model.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.server.ResponseStatusException;
@@ -113,7 +113,7 @@ public class ProductServiceTest {
  void deleteValidId () {
 	ProductDb productDb = mock( ProductDb.class );
 	ProductService productService = new ProductService( productDb );
-	
+
 	when( productDb.delete( "1" ) ).thenReturn( true );
 	assertThrows( ResponseStatusException.class, () -> productService.delete( "X" ) );
  }

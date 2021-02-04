@@ -1,7 +1,7 @@
-package com.dennisjauernig.springplayground.controller;
+package com.dennisjauernig.springplayground.OrderAPI.controller;
 
-import com.dennisjauernig.springplayground.db.OrderDb;
-import com.dennisjauernig.springplayground.model.Order;
+import com.dennisjauernig.springplayground.OrderAPI.db.OrderDb;
+import com.dennisjauernig.springplayground.OrderAPI.model.Order;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

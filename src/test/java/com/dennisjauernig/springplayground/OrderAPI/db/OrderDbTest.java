@@ -1,6 +1,6 @@
-package com.dennisjauernig.springplayground.db;
+package com.dennisjauernig.springplayground.OrderAPI.db;
 
-import com.dennisjauernig.springplayground.model.Order;
+import com.dennisjauernig.springplayground.OrderAPI.model.Order;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

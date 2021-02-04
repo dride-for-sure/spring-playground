@@ -1,4 +1,4 @@
-package com.dennisjauernig.springplayground.model;
+package com.dennisjauernig.springplayground.OrderAPI.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

@@ -1,7 +1,7 @@
-package com.dennisjauernig.springplayground.controller;
+package com.dennisjauernig.springplayground.OrderAPI.controller;
 
-import com.dennisjauernig.springplayground.model.Order;
-import com.dennisjauernig.springplayground.services.OrderService;
+import com.dennisjauernig.springplayground.OrderAPI.model.Order;
+import com.dennisjauernig.springplayground.OrderAPI.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

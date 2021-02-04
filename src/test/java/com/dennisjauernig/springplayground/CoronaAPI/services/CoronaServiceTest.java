@@ -134,15 +134,17 @@ public class CoronaServiceTest {
  @Test
  @DisplayName ("HomeSchooling false")
  void calcHomeSchoolingFalse () {
- }
+	CoronaApiService coronaApiService = mock( CoronaApiService.class );
+	CoronaService coronaService = new CoronaService( coronaApiService );
 
- @Test
- @DisplayName ("Average cases with list size 1")
- void averageCasesByCountryListSize1 () {
- }
+	List<CoronaCountryStatusData> responseList = new ArrayList<>( List.of(
+					new CoronaCountryStatusData( "germany", "berlin", "0", "date1" ),
+					new CoronaCountryStatusData( "germany", "berlin", "200", "date2" ),
+					new CoronaCountryStatusData( "germany", "berlin", "500", "date3" )
+	) );
+	when( coronaApiService.get( "germany", "berlin" ) ).thenReturn( Optional.of( responseList ) );
 
- @Test
- @DisplayName ("Average cases with list size > 1")
- void averageCasesByCountryListSize3 () {
+	String expected = "{ \"country\": \"germany\", \"province\": \"berlin\", \"homeschooling\": \"true\"}";
+	assertThat( coronaService.getHomeSchooling( "germany", "berlin" ).get(), equalTo( expected ) );
  }
 }

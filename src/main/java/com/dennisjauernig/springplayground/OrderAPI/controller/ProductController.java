@@ -1,7 +1,7 @@
-package com.dennisjauernig.springplayground.controller;
+package com.dennisjauernig.springplayground.OrderAPI.controller;
 
-import com.dennisjauernig.springplayground.model.Product;
-import com.dennisjauernig.springplayground.services.ProductService;
+import com.dennisjauernig.springplayground.OrderAPI.model.Product;
+import com.dennisjauernig.springplayground.OrderAPI.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +34,7 @@ public class ProductController {
 	this.productService.delete( id );
  }
 
- @PutMapping
+ @PostMapping
  public Product add (@RequestBody Product product) {
 	return this.productService.add( product );
  }

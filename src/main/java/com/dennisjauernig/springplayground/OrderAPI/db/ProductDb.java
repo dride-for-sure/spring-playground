@@ -1,6 +1,6 @@
-package com.dennisjauernig.springplayground.db;
+package com.dennisjauernig.springplayground.OrderAPI.db;
 
-import com.dennisjauernig.springplayground.model.Product;
+import com.dennisjauernig.springplayground.OrderAPI.model.Product;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class ProductDb {
 
  public boolean delete (String id) {
 	List<Product> filteredDb = this.productDb.stream()
-					.filter( product -> product.getId().equals( id ) )
+					.filter( product -> !product.getId().equals( id ) )
 					.collect( Collectors.toList() );
 	if ( filteredDb.size() == this.productDb.size() ) {
 	 return false;

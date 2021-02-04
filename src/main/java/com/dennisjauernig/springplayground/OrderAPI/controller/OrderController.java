@@ -1,7 +1,7 @@
-package com.dennisjauernig.springplayground.controller;
+package com.dennisjauernig.springplayground.OrderAPI.controller;
 
-import com.dennisjauernig.springplayground.model.Order;
-import com.dennisjauernig.springplayground.services.OrderService;
+import com.dennisjauernig.springplayground.OrderAPI.model.Order;
+import com.dennisjauernig.springplayground.OrderAPI.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +26,7 @@ public class OrderController {
 
  @GetMapping ("{id}")
  public List<Order> get (@PathVariable String id) {
-	return this.orderService.get( id );
+	return this.orderService.get( UUID.fromString( id ) );
  }
 
  @DeleteMapping ("{id}")
@@ -34,7 +34,7 @@ public class OrderController {
 	this.orderService.delete( UUID.fromString( id ) );
  }
 
- @PutMapping
+ @PostMapping
  public Order add (@RequestBody Order order) {
 	return this.orderService.add( order );
  }

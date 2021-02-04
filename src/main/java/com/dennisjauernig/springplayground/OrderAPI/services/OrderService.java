@@ -1,8 +1,8 @@
-package com.dennisjauernig.springplayground.services;
+package com.dennisjauernig.springplayground.OrderAPI.services;
 
-import com.dennisjauernig.springplayground.db.OrderDb;
-import com.dennisjauernig.springplayground.db.ProductDb;
-import com.dennisjauernig.springplayground.model.Order;
+import com.dennisjauernig.springplayground.OrderAPI.db.OrderDb;
+import com.dennisjauernig.springplayground.OrderAPI.db.ProductDb;
+import com.dennisjauernig.springplayground.OrderAPI.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class OrderService {
 	return this.orderDb.list();
  }
 
- public List<Order> get (String id) {
+ public List<Order> get (UUID id) {
 	List<Order> orders = this.orderDb.list();
 	return orders.stream()
 					.filter( order -> order.getId().equals( id ) )

@@ -1,7 +1,7 @@
-package com.dennisjauernig.springplayground.services;
+package com.dennisjauernig.springplayground.OrderAPI.services;
 
-import com.dennisjauernig.springplayground.db.ProductDb;
-import com.dennisjauernig.springplayground.model.Product;
+import com.dennisjauernig.springplayground.OrderAPI.db.ProductDb;
+import com.dennisjauernig.springplayground.OrderAPI.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.hasItem;
 
 public class OrderDbTest {
 
@@ -22,12 +23,12 @@ public class OrderDbTest {
 	orderDb.add( new Order( uuid, new ArrayList<>( List.of( "1", "2" ) ) ) );
 	List<Order> actual = orderDb.list();
 	Order expectedOrder = new Order( uuid, new ArrayList<>( List.of( "1", "2" ) ) );
-	assertThat( actual, containsInAnyOrder( expectedOrder ) );
+	assertThat( actual, hasItem( expectedOrder ) );
  }
 
  @Test
  @DisplayName ("Delete valid order")
- void deleteOrderValid () {
+ void deleteValid () {
 	OrderDb orderDb = new OrderDb();
 	UUID uuid = UUID.randomUUID();
 	orderDb.add( new Order( uuid, new ArrayList<>( List.of( "1", "2" ) ) ) );
@@ -38,8 +39,8 @@ public class OrderDbTest {
  }
 
  @Test
- @DisplayName ("Delete invlid order")
- void deleteOrderInvalid () {
+ @DisplayName ("Delete invalid order")
+ void deleteInvalid () {
 	OrderDb orderDb = new OrderDb();
 	UUID uuid = UUID.randomUUID();
 	orderDb.add( new Order( uuid, new ArrayList<>( List.of( "1", "2" ) ) ) );

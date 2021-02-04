@@ -29,7 +29,7 @@ public class OrderService {
 	return this.orderDb.list();
  }
 
- public List<Order> get (String id) {
+ public List<Order> get (UUID id) {
 	List<Order> orders = this.orderDb.list();
 	return orders.stream()
 					.filter( order -> order.getId().equals( id ) )

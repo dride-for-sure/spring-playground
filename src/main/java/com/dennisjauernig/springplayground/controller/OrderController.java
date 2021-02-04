@@ -26,7 +26,7 @@ public class OrderController {
 
  @GetMapping ("{id}")
  public List<Order> get (@PathVariable String id) {
-	return this.orderService.get( id );
+	return this.orderService.get( UUID.fromString( id ) );
  }
 
  @DeleteMapping ("{id}")
@@ -34,7 +34,7 @@ public class OrderController {
 	this.orderService.delete( UUID.fromString( id ) );
  }
 
- @PutMapping
+ @PostMapping
  public Order add (@RequestBody Order order) {
 	return this.orderService.add( order );
  }

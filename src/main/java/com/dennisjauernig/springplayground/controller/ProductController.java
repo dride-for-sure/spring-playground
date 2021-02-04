@@ -34,7 +34,7 @@ public class ProductController {
 	this.productService.delete( id );
  }
 
- @PutMapping
+ @PostMapping
  public Product add (@RequestBody Product product) {
 	return this.productService.add( product );
  }

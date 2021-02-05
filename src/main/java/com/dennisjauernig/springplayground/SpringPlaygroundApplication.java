@@ -16,5 +16,4 @@ public class SpringPlaygroundApplication {
  public RestTemplate createRestTemplateBean () {
 	return new RestTemplate();
  }
-
 }

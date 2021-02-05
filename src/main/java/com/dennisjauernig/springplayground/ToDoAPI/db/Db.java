@@ -4,29 +4,45 @@ import com.dennisjauernig.springplayground.ToDoAPI.model.ToDo;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Repository
 public class Db {
 
- private final Map<UUID, ToDo> db = new HashMap<>();
+ private final Map<UUID, ToDo> db;
 
- public Optional<List<ToDo>> list () {
-	return Optional.of( this.db.values().stream().collect( Collectors.toList() ) );
+ public Db () {
+	this.db = new HashMap<>();
+ }
+
+ public Optional<List<ToDo>> get () {
+	return this.db.isEmpty() ? Optional.empty() : Optional.of( new ArrayList<>( this.db.values() ) );
  }
 
  public Optional<ToDo> create (ToDo todo) {
-	this.db.put( todo.getUuid(), todo );
-	return Optional.of( this.db.get( todo.getUuid() ) );
+	UUID uuid = UUID.fromString( todo.getId() );
+	if ( this.db.containsKey( uuid ) ) {
+	 return Optional.empty();
+	}
+	this.db.put( UUID.fromString( todo.getId() ), todo );
+	return Optional.of( this.db.get( UUID.fromString( todo.getId() ) ) );
  }
 
  public Optional<ToDo> update (String id, ToDo todo) {
 	UUID uuid = UUID.fromString( id );
-	this.db.put( uuid, todo );
-	return Optional.of( this.db.get( uuid ) );
+	if ( this.db.containsKey( uuid ) ) {
+	 this.db.put( uuid, todo );
+	 return Optional.of( this.db.get( uuid ) );
+	}
+	return Optional.empty();
  }
 
- public void delete (String id) {
-	this.db.remove( id );
+ public Optional<ToDo> delete (String id) {
+	UUID uuid = UUID.fromString( id );
+	if ( this.db.containsKey( uuid ) ) {
+	 ToDo response = this.db.get( uuid );
+	 this.db.remove( UUID.fromString( id ) );
+	 return Optional.of( response );
+	}
+	return Optional.empty();
  }
 }

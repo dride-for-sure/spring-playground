@@ -23,23 +23,24 @@ public class Controller {
  @GetMapping
  public ResponseEntity<List<ToDo>> get () {
 	Optional<List<ToDo>> response = this.services.get();
-	return response.isEmpty() ? ResponseEntity.badRequest().build() : ResponseEntity.ok( response.get() );
+	return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok( response.get() );
  }
 
  @PostMapping
  public ResponseEntity<ToDo> post (@RequestBody ToDo todo) {
 	Optional<ToDo> response = this.services.create( todo );
-	return response.isEmpty() ? ResponseEntity.badRequest().build() : ResponseEntity.ok( response.get() );
+	return response.isEmpty() ? ResponseEntity.unprocessableEntity().build() : ResponseEntity.ok( response.get() );
  }
 
  @PutMapping ("{id}")
  public ResponseEntity<ToDo> put (@PathVariable String id, @RequestBody ToDo todo) {
 	Optional<ToDo> response = this.services.update( id, todo );
-	return response.isEmpty() ? ResponseEntity.badRequest().build() : ResponseEntity.ok( response.get() );
+	return response.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok( response.get() );
  }
 
  @DeleteMapping ("{id}")
- public void delete (@PathVariable String id) {
-	this.services.delete( id );
+ public ResponseEntity<ToDo> delete (@PathVariable String id) {
+	Optional<ToDo> response = this.services.delete( id );
+	return response.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok( response.get() );
  }
 }

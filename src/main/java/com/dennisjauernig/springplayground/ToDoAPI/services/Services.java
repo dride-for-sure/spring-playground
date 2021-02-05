@@ -19,7 +19,7 @@ public class Services {
  }
 
  public Optional<List<ToDo>> get () {
-	return this.db.list();
+	return this.db.get();
  }
 
  public Optional<ToDo> create (ToDo todo) {
@@ -30,7 +30,7 @@ public class Services {
 	return this.db.update( id, todo );
  }
 
- public void delete (String id) {
-	this.db.delete( id );
+ public Optional<ToDo> delete (String id) {
+	return this.db.delete( id );
  }
 }

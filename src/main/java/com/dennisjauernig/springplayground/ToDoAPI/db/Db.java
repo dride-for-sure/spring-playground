@@ -15,7 +15,7 @@ public class Db {
  }
 
  public Optional<List<ToDo>> get () {
-	return this.db.isEmpty() ? Optional.empty() : Optional.of( new ArrayList<>( this.db.values() ) );
+	return Optional.of( new ArrayList<>( this.db.values() ) );
  }
 
  public Optional<ToDo> create (ToDo todo) {

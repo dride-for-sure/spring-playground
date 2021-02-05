@@ -10,14 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ToDo {
 
- // uuidv4
  @JsonProperty ("id")
  private String id;
 
  @JsonProperty ("description")
  private String desc;
 
- // OPEN, IN_PROGRESS, DONE
  private String status;
 
  public ToDo (String desc, String status) {

@@ -4,6 +4,7 @@ import com.dennisjauernig.springplayground.ToDoAPI.model.ToDo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -50,11 +51,11 @@ public class DbTest {
  }
 
  @Test
- @DisplayName ("Empty List-> Optional.empty")
+ @DisplayName ("Empty List-> Empty List")
  void listEmpty () {
 	Db db = new Db();
 	Optional<List<ToDo>> actual = db.get();
-	assertThat( actual, equalTo( Optional.empty() ) );
+	assertThat( actual.get(), equalTo( new ArrayList<>() ) );
  }
 
  @Test
@@ -105,7 +106,7 @@ public class DbTest {
  }
 
  @Test
- @DisplayName ("Delete valid -> list is empty -> Optional.empty")
+ @DisplayName ("Delete valid -> list is empty -> empty list")
  void deleteValidAndListIsEmpty () {
 	Db db = new Db();
 	UUID uuid1 = UUID.randomUUID();
@@ -115,7 +116,7 @@ public class DbTest {
 	Optional<List<ToDo>> actual = db.get();
 
 	assertThat( response.get(), equalTo( new ToDo( uuid1.toString(), "FooBar", "OPEN" ) ) );
-	assertThat( actual, equalTo( Optional.empty() ) );
+	assertThat( actual.get(), equalTo( new ArrayList<>() ) );
  }
 
  @Test

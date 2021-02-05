@@ -68,14 +68,4 @@ public class ControllerTest {
 					ToDo.class ) );
  }
 
- @Test
- @DisplayName ("Empty List -> Exception")
- void listEmpty () {
-	UUID uuid1 = UUID.randomUUID();
-	String url = "http://localhost:" + this.port + "/api/todo";
-
-	assertThat( this.restTemplate.getForEntity( url, ToDo[].class ).getStatusCode(),
-					equalTo( HttpStatus.NO_CONTENT ) );
- }
-
 }

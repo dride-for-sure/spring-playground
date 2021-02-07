@@ -6,12 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class ToDo {
-
- @JsonProperty ("id")
- private String id;
+@AllArgsConstructor
+public class ToDoWithoutId {
 
  @JsonProperty ("description")
  private String desc;

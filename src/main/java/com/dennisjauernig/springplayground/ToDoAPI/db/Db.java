@@ -14,19 +14,19 @@ public class Db {
 	this.db = new HashMap<>();
  }
 
- public Optional<List<ToDo>> get () {
-	return Optional.of( new ArrayList<>( this.db.values() ) );
+ public List<ToDo> get () {
+	return new ArrayList<>( this.db.values() );
  }
 
- public Optional<ToDo> create (ToDo todo) {
-	UUID uuid = UUID.fromString( todo.getId() );
-	if ( this.db.containsKey( uuid ) ) {
+ public Optional<ToDo> create (ToDo toDo) {
+	if ( this.db.containsKey( UUID.fromString( toDo.getId() ) ) ) {
 	 return Optional.empty();
 	}
-	this.db.put( UUID.fromString( todo.getId() ), todo );
-	return Optional.of( this.db.get( UUID.fromString( todo.getId() ) ) );
+	this.db.put( UUID.fromString( toDo.getId() ), toDo );
+	return Optional.of( toDo );
  }
 
+ // Update: return todo + update notification
  public Optional<ToDo> update (String id, ToDo todo) {
 	UUID uuid = UUID.fromString( id );
 	if ( this.db.containsKey( uuid ) ) {

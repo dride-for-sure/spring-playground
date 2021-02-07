@@ -11,7 +11,7 @@ import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DbTest {
 
@@ -24,12 +24,12 @@ public class DbTest {
 	db.create( new ToDo( uuid1.toString(), "FooBar", "OPEN" ) );
 	db.create( new ToDo( uuid2.toString(), "FooBar", "DONE" ) );
 
-	Optional<List<ToDo>> actual = db.get();
+	List<ToDo> actual = db.get();
 
 	ToDo todo1 = new ToDo( uuid1.toString(), "FooBar", "OPEN" );
 	ToDo todo2 = new ToDo( uuid2.toString(), "FooBar", "DONE" );
 
-	assertThat( actual.get(), containsInAnyOrder( todo1, todo2 ) );
+	assertThat( actual, containsInAnyOrder( todo1, todo2 ) );
  }
 
  @Test
@@ -41,21 +41,21 @@ public class DbTest {
 	db.create( new ToDo( uuid1.toString(), "FooBar", "OPEN" ) );
 
 	Optional<ToDo> response = db.create( new ToDo( uuid1.toString(), "FooBar", "DONE" ) );
-	Optional<List<ToDo>> actual = db.get();
+	List<ToDo> actual = db.get();
 
 	ToDo todo1 = new ToDo( uuid1.toString(), "FooBar", "OPEN" );
 	ToDo todo2 = new ToDo( uuid2.toString(), "FooBar", "DONE" );
 
 	assertThat( response, equalTo( Optional.empty() ) );
-	assertTrue( actual.get().size() == 1 );
+	assertEquals( actual.size(), 1 );
  }
 
  @Test
  @DisplayName ("Empty List-> Empty List")
  void listEmpty () {
 	Db db = new Db();
-	Optional<List<ToDo>> actual = db.get();
-	assertThat( actual.get(), equalTo( new ArrayList<>() ) );
+	List<ToDo> actual = db.get();
+	assertThat( actual, equalTo( new ArrayList<>() ) );
  }
 
  @Test
@@ -67,10 +67,10 @@ public class DbTest {
 
 	Optional<ToDo> response = db.update( uuid1.toString(), new ToDo( uuid1.toString(), "FooBar",
 					"OPEN" ) );
-	Optional<List<ToDo>> actual = db.get();
+	List<ToDo> actual = db.get();
 
 	assertThat( response.get(), equalTo( new ToDo( uuid1.toString(), "FooBar", "OPEN" ) ) );
-	assertThat( actual.get(), hasItem( new ToDo( uuid1.toString(), "FooBar", "OPEN" ) ) );
+	assertThat( actual, hasItem( new ToDo( uuid1.toString(), "FooBar", "OPEN" ) ) );
  }
 
  @Test
@@ -83,10 +83,10 @@ public class DbTest {
 
 	Optional<ToDo> response = db.update( uuid2.toString(), new ToDo( uuid2.toString(), "FooBar",
 					"OPEN" ) );
-	Optional<List<ToDo>> actual = db.get();
+	List<ToDo> actual = db.get();
 
 	assertThat( response, equalTo( Optional.empty() ) );
-	assertThat( actual.get(), not( hasItem( new ToDo( uuid2.toString(), "FooBar", "OPEN" ) ) ) );
+	assertThat( actual, not( hasItem( new ToDo( uuid2.toString(), "FooBar", "OPEN" ) ) ) );
  }
 
  @Test
@@ -99,10 +99,10 @@ public class DbTest {
 	db.create( new ToDo( uuid2.toString(), "FooBar", "OPEN" ) );
 
 	Optional<ToDo> response = db.delete( uuid1.toString() );
-	Optional<List<ToDo>> actual = db.get();
+	List<ToDo> actual = db.get();
 
 	assertThat( response.get(), equalTo( new ToDo( uuid1.toString(), "FooBar", "OPEN" ) ) );
-	assertThat( actual.get(), not( hasItem( new ToDo( uuid1.toString(), "FooBar", "OPEN" ) ) ) );
+	assertThat( actual, not( hasItem( new ToDo( uuid1.toString(), "FooBar", "OPEN" ) ) ) );
  }
 
  @Test
@@ -113,10 +113,10 @@ public class DbTest {
 	db.create( new ToDo( uuid1.toString(), "FooBar", "OPEN" ) );
 
 	Optional<ToDo> response = db.delete( uuid1.toString() );
-	Optional<List<ToDo>> actual = db.get();
+	List<ToDo> actual = db.get();
 
 	assertThat( response.get(), equalTo( new ToDo( uuid1.toString(), "FooBar", "OPEN" ) ) );
-	assertThat( actual.get(), equalTo( new ArrayList<>() ) );
+	assertThat( actual, equalTo( new ArrayList<>() ) );
  }
 
  @Test
@@ -128,9 +128,9 @@ public class DbTest {
 	db.create( new ToDo( uuid1.toString(), "FooBar", "OPEN" ) );
 
 	Optional<ToDo> response = db.delete( uuid2.toString() );
-	Optional<List<ToDo>> actual = db.get();
+	List<ToDo> actual = db.get();
 
 	assertThat( response, equalTo( Optional.empty() ) );
-	assertThat( actual.get(), hasItem( new ToDo( uuid1.toString(), "FooBar", "OPEN" ) ) );
+	assertThat( actual, hasItem( new ToDo( uuid1.toString(), "FooBar", "OPEN" ) ) );
  }
 }

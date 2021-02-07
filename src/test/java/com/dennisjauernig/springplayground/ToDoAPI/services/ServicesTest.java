@@ -2,8 +2,11 @@ package com.dennisjauernig.springplayground.ToDoAPI.services;
 
 import com.dennisjauernig.springplayground.ToDoAPI.db.Db;
 import com.dennisjauernig.springplayground.ToDoAPI.model.ToDo;
+import com.dennisjauernig.springplayground.ToDoAPI.model.ToDoWithoutId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +28,13 @@ public class ServicesTest {
 	Services services = new Services( db );
 	UUID uuid1 = UUID.randomUUID();
 
-	when( db.get() ).thenReturn( Optional.of( new ArrayList<ToDo>( List.of(
+	when( db.get() ).thenReturn( new ArrayList<ToDo>( List.of(
 					new ToDo( uuid1.toString(), "FOOBAR", "DONE" )
-	) ) ) );
+	) ) );
 
-	Optional<List<ToDo>> actual = services.get();
+	List<ToDo> actual = services.get();
 
-	assertThat( actual.get(), hasItem( new ToDo( uuid1.toString(), "FOOBAR", "DONE" ) ) );
+	assertThat( actual, hasItem( new ToDo( uuid1.toString(), "FOOBAR", "DONE" ) ) );
  }
 
  @Test
@@ -40,11 +43,11 @@ public class ServicesTest {
 	Db db = mock( Db.class );
 	Services services = new Services( db );
 
-	when( db.get() ).thenReturn( Optional.empty() );
+	when( db.get() ).thenReturn( new ArrayList<ToDo>() );
 
-	Optional<List<ToDo>> actual = services.get();
+	List<ToDo> actual = services.get();
 
-	assertThat( actual, equalTo( Optional.empty() ) );
+	assertThat( actual, equalTo( new ArrayList<ToDo>() ) );
  }
 
  @Test
@@ -54,13 +57,18 @@ public class ServicesTest {
 	Services services = new Services( db );
 	UUID uuid1 = UUID.randomUUID();
 
-	when( db.create( new ToDo( uuid1.toString(), "FOOBAR", "DONE" ) ) )
-					.thenReturn( Optional.of( new ToDo( uuid1.toString(), "FOOBAR", "DONE" )
-					) );
+	try ( MockedStatic<UUID> uuidMockedStatic = Mockito.mockStatic( UUID.class ) ) {
+	 uuidMockedStatic.when( () -> UUID.randomUUID() ).thenReturn( uuid1 );
 
-	Optional<ToDo> actual = services.create( new ToDo( uuid1.toString(), "FOOBAR", "DONE" ) );
+	 when( db.create( new ToDo( uuid1.toString(), "FOOBAR", "DONE" ) ) )
+					 .thenReturn( Optional.of( new ToDo( uuid1.toString(), "FOOBAR", "DONE" )
+					 ) );
 
-	assertThat( actual.get(), equalTo( new ToDo( uuid1.toString(), "FOOBAR", "DONE" ) ) );
+	 Optional<ToDo> actual = services.create( new ToDoWithoutId( "FOOBAR", "DONE" ) );
+
+	 assertThat( actual.get(), equalTo( new ToDo( uuid1.toString(), "FOOBAR", "DONE" ) ) );
+
+	}
  }
 
  @Test

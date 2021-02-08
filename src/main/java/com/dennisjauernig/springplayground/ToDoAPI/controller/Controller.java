@@ -1,6 +1,7 @@
 package com.dennisjauernig.springplayground.ToDoAPI.controller;
 
 import com.dennisjauernig.springplayground.ToDoAPI.model.ToDo;
+import com.dennisjauernig.springplayground.ToDoAPI.model.ToDoWithoutId;
 import com.dennisjauernig.springplayground.ToDoAPI.services.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,13 @@ public class Controller {
 
  @GetMapping
  public ResponseEntity<List<ToDo>> get () {
-	Optional<List<ToDo>> response = this.services.get();
-	return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok( response.get() );
+	List<ToDo> response = this.services.get();
+	return ResponseEntity.ok( response );
  }
 
  @PostMapping
- public ResponseEntity<ToDo> post (@RequestBody ToDo todo) {
-	Optional<ToDo> response = this.services.create( todo );
+ public ResponseEntity<ToDo> post (@RequestBody ToDoWithoutId toDoWithoutId) {
+	Optional<ToDo> response = this.services.create( toDoWithoutId );
 	return response.isEmpty() ? ResponseEntity.unprocessableEntity().build() : ResponseEntity.ok( response.get() );
  }
 

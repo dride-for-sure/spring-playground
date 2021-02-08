@@ -2,6 +2,7 @@ package com.dennisjauernig.springplayground.ToDoAPI.controller;
 
 import com.dennisjauernig.springplayground.ToDoAPI.db.Db;
 import com.dennisjauernig.springplayground.ToDoAPI.model.ToDo;
+import com.dennisjauernig.springplayground.ToDoAPI.model.ToDoWithoutId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -36,18 +36,20 @@ public class ControllerTest {
  @DisplayName ("Post -> containsInAnyOrder")
  void postAndList () {
 	UUID uuid1 = UUID.randomUUID();
-	String url = "http://localhost:" + this.port + "/api/todo";
 
+	// Mockbean
+
+	String url = "http://localhost:" + this.port + "/api/todo";
 	ResponseEntity<ToDo> response = this.restTemplate.postForEntity(
 					url,
-					new ToDo( uuid1.toString(), "Foobar", "DONE" ),
+					new ToDoWithoutId( "Foobar", "DONE" ),
 					ToDo.class );
 
-	Optional<List<ToDo>> actual = this.db.get();
+	List<ToDo> actual = this.db.get();
 
 	assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
 	assertThat( response.getBody(), equalTo( new ToDo( uuid1.toString(), "Foobar", "DONE" ) ) );
-	assertThat( actual.get(), containsInAnyOrder( new ToDo( uuid1.toString(), "Foobar", "DONE" ) ) );
+	assertThat( actual, containsInAnyOrder( new ToDo( uuid1.toString(), "Foobar", "DONE" ) ) );
  }
 
  @Test
@@ -67,5 +69,4 @@ public class ControllerTest {
 					new ToDo( uuid1.toString(), "Foobar", "DONE" ),
 					ToDo.class ) );
  }
-
 }

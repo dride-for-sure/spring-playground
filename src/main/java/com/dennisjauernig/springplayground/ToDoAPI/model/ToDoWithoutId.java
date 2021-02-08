@@ -13,5 +13,5 @@ public class ToDoWithoutId {
  @JsonProperty ("description")
  private String desc;
 
- private String status;
+ private Status status;
 }

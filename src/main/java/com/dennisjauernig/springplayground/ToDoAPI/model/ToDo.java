@@ -16,5 +16,5 @@ public class ToDo {
  @JsonProperty ("description")
  private String desc;
 
- private String status;
+ private Status status;
 }

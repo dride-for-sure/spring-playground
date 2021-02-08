@@ -5,8 +5,6 @@ import com.dennisjauernig.springplayground.ToDoAPI.model.ToDo;
 import com.dennisjauernig.springplayground.ToDoAPI.model.ToDoWithoutId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -39,21 +37,19 @@ public class ControllerTest {
  void postAndList () {
 	UUID uuid1 = UUID.randomUUID();
 
-	try ( MockedStatic<UUID> uuidMockedStatic = Mockito.mockStatic( UUID.class ) ) {
-	 uuidMockedStatic.when( () -> UUID.randomUUID() ).thenReturn( uuid1 );
+	// Mockbean
 
-	 String url = "http://localhost:" + this.port + "/api/todo";
-	 ResponseEntity<ToDo> response = this.restTemplate.postForEntity(
-					 url,
-					 new ToDoWithoutId( "Foobar", "DONE" ),
-					 ToDo.class );
+	String url = "http://localhost:" + this.port + "/api/todo";
+	ResponseEntity<ToDo> response = this.restTemplate.postForEntity(
+					url,
+					new ToDoWithoutId( "Foobar", "DONE" ),
+					ToDo.class );
 
-	 List<ToDo> actual = this.db.get();
+	List<ToDo> actual = this.db.get();
 
-	 assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
-	 assertThat( response.getBody(), equalTo( new ToDo( uuid1.toString(), "Foobar", "DONE" ) ) );
-	 assertThat( actual, containsInAnyOrder( new ToDo( uuid1.toString(), "Foobar", "DONE" ) ) );
-	}
+	assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
+	assertThat( response.getBody(), equalTo( new ToDo( uuid1.toString(), "Foobar", "DONE" ) ) );
+	assertThat( actual, containsInAnyOrder( new ToDo( uuid1.toString(), "Foobar", "DONE" ) ) );
  }
 
  @Test
